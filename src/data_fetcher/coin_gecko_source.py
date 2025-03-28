@@ -23,6 +23,8 @@ class CryptoDataFetcher:
         self.coin_ids = ["bitcoin", "ethereum", "ravencoin", "tron"]
         self.data_dir = data_dir
 
+        os.makedirs(data_dir, exist_ok=True)
+
     def make_request(self, endpoint, params=None):
         """
         Sends a GET request to the specified API endpoint.
@@ -56,7 +58,6 @@ class CryptoDataFetcher:
         full_path = os.path.join(self.data_dir, f"{identifier}_{timestamp}_{filename}")
 
         try:
-            os.makedirs(self.data_dir, exist_ok=True)  # Create the directory if it doesn't exist
             with open(full_path, 'w') as file:
                 json.dump(data, file, indent=4)
             print(f"Data successfully saved to {full_path}")

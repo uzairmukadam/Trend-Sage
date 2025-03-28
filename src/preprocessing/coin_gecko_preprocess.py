@@ -21,6 +21,8 @@ class DataProcessor:
         self.processed_directory = processed_directory
         self.identifier = identifier
 
+        os.makedirs(processed_directory, exist_ok=True)
+
     def get_sorted_files(self, directory):
         """
         Get all files in a directory, sorted by timestamp in filename.
