@@ -177,4 +177,4 @@ cython_debug/
 .DS_Store
 
 # data folder
-/src/data
+/data

@@ -8,7 +8,7 @@ class CryptoDataFetcher:
     A class to interact with the CoinGecko API and fetch cryptocurrency data.
     """
 
-    def __init__(self, data_dir='./src/data/raw'):
+    def __init__(self, data_dir='./data/raw'):
         """
         Initializes the CryptoDataFetcher.
 

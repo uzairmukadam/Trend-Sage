@@ -8,7 +8,7 @@ class DataProcessor:
     A class to handle the processing of raw JSON data files and converting them to CSV format.
     """
 
-    def __init__(self, raw_directory='./src/data/raw', processed_directory='./src/data/processed', identifier="gecko"):
+    def __init__(self, raw_directory='./data/raw', processed_directory='./data/processed', identifier="gecko"):
         """
         Initializes the DataProcessor.
 

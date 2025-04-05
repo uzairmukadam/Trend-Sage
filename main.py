@@ -8,6 +8,6 @@ data_fetcher = CryptoDataFetcher()
 preprocessor = DataProcessor()
 engineer = FeatureEngineering()
 
-data_fetcher.get_coin_charts("bitcoin")
+data_fetcher.get_coin_charts("ravencoin")
 preprocessor.process_raw()
 engineer.engineer_features()
