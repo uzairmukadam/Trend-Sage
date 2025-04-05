@@ -110,11 +110,5 @@ class DataProcessor:
 
 # Example Usage
 if __name__ == "__main__":
-    # Initialize the DataProcessor object
     processor = DataProcessor()
-
-    # Ensure the processed directory exists
-    os.makedirs(processor.processed_directory, exist_ok=True)
-
-    # Process raw JSON files to CSV
     processor.process_raw()
