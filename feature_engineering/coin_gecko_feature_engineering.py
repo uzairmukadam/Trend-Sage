@@ -3,7 +3,7 @@ import pandas as pd
 import re
 
 class FeatureEngineering:
-    def __init__(self, preprocessed_directory='./src/data/processed', engineered_directory='./src/data/engineered', identifier="gecko"):
+    def __init__(self, preprocessed_directory='./data/processed', engineered_directory='./data/engineered', identifier="gecko"):
         self.identifier = identifier
         self.preprocessed_directory = preprocessed_directory
         self.engineered_directory = engineered_directory
