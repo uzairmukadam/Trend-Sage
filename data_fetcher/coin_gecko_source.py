@@ -3,20 +3,17 @@ import json
 import time
 import os
 
-class CryptoDataFetcher:
+class DataFetcher:
     """
     A class to interact with the CoinGecko API and fetch cryptocurrency data.
     """
 
     def __init__(self, data_dir='./data/raw'):
         """
-        Initializes the CryptoDataFetcher.
+        Initializes the DataFetcher instance.
 
         Args:
-            base_url (str): The base URL for the API.
-            vs_currencies (str): The target currency (e.g., 'usd').
-            coin_ids (list): List of cryptocurrency IDs to fetch data for.
-            data_dir (str): The directory to save fetched data.
+            data_dir (str): Directory where fetched data will be saved.
         """
         self.base_url = "https://api.coingecko.com/api/v3"
         self.vs_currencies = "usd"
@@ -34,7 +31,7 @@ class CryptoDataFetcher:
             params (dict, optional): Query parameters.
 
         Returns:
-            dict or None: The JSON response, or None if the request fails.
+            dict: JSON response from the API, or None if an error occurs.
         """
         url = self.base_url + endpoint
         try:
@@ -42,16 +39,16 @@ class CryptoDataFetcher:
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
-            print(f"Error fetching data from {url}: {e}")
+            print(f"[ERROR] Failed to fetch data from {url}: {e}")
             return None
 
     def save_to_file(self, data, filename):
         """
-        Saves the provided data to a local JSON file, ensuring the directory exists.
+        Saves the data to a local JSON file.
 
         Args:
-            data (dict): The data to save.
-            filename (str): The output filename.
+            data (dict): Data to save.
+            filename (str): Name of the file to save the data in.
         """
         identifier = "gecko"
         timestamp = time.strftime("%Y%m%d%H%M%S")
@@ -60,38 +57,76 @@ class CryptoDataFetcher:
         try:
             with open(full_path, 'w') as file:
                 json.dump(data, file, indent=4)
-            print(f"Data successfully saved to {full_path}")
-        except IOError as e:
-            print(f"Error saving data to file {full_path}: {e}")
-        except OSError as e:
-            print(f"Error creating directory {self.data_dir}: {e}")
+            print(f"[INFO] Data successfully saved to: {full_path}")
+        except (IOError, OSError) as e:
+            print(f"[ERROR] Unable to save data to {full_path}: {e}")
 
-    # API Calls
     def ping(self):
+        """
+        Tests the API connection.
+
+        Returns:
+            dict: Response from the API.
+        """
+        print("[INFO] Pinging the API...")
         data = self.make_request("/ping")
         if data:
             self.save_to_file(data, "ping.json")
         return data
 
     def get_coins_list(self):
+        """
+        Fetches the list of available cryptocurrencies.
+
+        Returns:
+            dict: JSON response containing the list of coins.
+        """
+        print("[INFO] Fetching the list of coins...")
         data = self.make_request("/coins/list")
         if data:
             self.save_to_file(data, "coins_list.json")
         return data
 
     def get_global_data(self):
+        """
+        Fetches global market data for cryptocurrencies.
+
+        Returns:
+            dict: JSON response containing global market data.
+        """
+        print("[INFO] Fetching global cryptocurrency data...")
         data = self.make_request("/global")
         if data:
             self.save_to_file(data, "global_data.json")
         return data
 
     def get_coin_data_by_id(self, coin_id):
+        """
+        Fetches detailed data for a specific cryptocurrency.
+
+        Args:
+            coin_id (str): ID of the cryptocurrency.
+
+        Returns:
+            dict: JSON response for the specified cryptocurrency.
+        """
+        print(f"[INFO] Fetching data for coin: {coin_id}")
         data = self.make_request(f"/coins/{coin_id}")
         if data:
             self.save_to_file(data, f"{coin_id}_data.json")
         return data
 
     def get_coin_price_by_id(self, coin_id):
+        """
+        Fetches the price data for a specific cryptocurrency.
+
+        Args:
+            coin_id (str): ID of the cryptocurrency.
+
+        Returns:
+            dict: JSON response containing price details.
+        """
+        print(f"[INFO] Fetching price data for coin: {coin_id}")
         params = {
             "ids": coin_id,
             "vs_currencies": self.vs_currencies,
@@ -106,52 +141,61 @@ class CryptoDataFetcher:
             self.save_to_file(data, f"{coin_id}_price.json")
         return data
 
-    def get_coin_chart_year_by_id(self, coin_id):
-        params = {"vs_currency": self.vs_currencies, "days": 365}
-        data = self.make_request(f"/coins/{coin_id}/market_chart", params)
-        if data:
-            self.save_to_file(data, f"{coin_id}_market_chart_year.json")
-        return data
+    def get_coin_chart(self, coin_id, days):
+        """
+        Fetches market chart data for a specific cryptocurrency.
 
-    def get_coin_chart_90days_by_id(self, coin_id):
-        params = {"vs_currency": self.vs_currencies, "days": 90}
+        Args:
+            coin_id (str): ID of the cryptocurrency.
+            days (int): Number of days for historical data.
+
+        Returns:
+            dict: JSON response containing chart data.
+        """
+        print(f"[INFO] Fetching {days}-day chart data for coin: {coin_id}")
+        params = {"vs_currency": self.vs_currencies, "days": days}
         data = self.make_request(f"/coins/{coin_id}/market_chart", params)
         if data:
-            self.save_to_file(data, f"{coin_id}_market_chart_90days.json")
+            self.save_to_file(data, f"{coin_id}_market_chart_{days}days.json")
         return data
 
     def get_coin_charts(self, coin_id):
-        print(f"Fetching market charts for {coin_id}...")
-        self.get_coin_chart_year_by_id(coin_id)
-        self.get_coin_chart_90days_by_id(coin_id)
-        print(f"Completed API calls for {coin_id}.")
+        """
+        Fetches 1-year and 90-day market chart data for a specific cryptocurrency.
 
-    # Driver Functions
+        Args:
+            coin_id (str): ID of the cryptocurrency.
+        """
+        print(f"[INFO] Fetching market charts for coin: {coin_id}")
+        self.get_coin_chart(coin_id, 365)
+        self.get_coin_chart(coin_id, 90)
+        print(f"[INFO] Completed fetching market charts for coin: {coin_id}")
+
     def run_static_calls(self):
         """
-        Executes static API calls that do not depend on specific coin IDs.
+        Executes API calls that do not depend on specific coin IDs.
         """
-        print("Running static API calls...")
+        print("[INFO] Running static API calls...")
         self.ping()
         self.get_coins_list()
         self.get_global_data()
-        print("Static API calls completed.")
+        print("[INFO] Static API calls completed.")
 
     def run_id_calls(self, delay=20):
         """
-        Executes API calls for each coin in the predefined list of coin IDs.
+        Executes API calls for predefined coin IDs, with a delay between each.
 
         Args:
             delay (int): Time to wait (in seconds) between API calls for each coin.
         """
-        print("Running ID-dependent API calls...")
+        print("[INFO] Running ID-dependent API calls...")
         for coin_id in self.coin_ids:
             self.get_coin_charts(coin_id)
             time.sleep(delay)
-        print("ID-dependent API calls completed.")
+        print("[INFO] ID-dependent API calls completed.")
 
 
 # Example Usage
 if __name__ == "__main__":
-    fetcher = CryptoDataFetcher()
-    fetcher.run_static_calls()
+    fetcher = DataFetcher()
+    fetcher.get_coin_charts('ethereum')
