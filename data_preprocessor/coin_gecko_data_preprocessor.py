@@ -3,7 +3,7 @@ import json
 import csv
 import re
 
-class DataProcessor:
+class DataPreprocessor:
     """
     A class to handle the processing of raw JSON data files and converting them into CSV format.
     """
@@ -122,5 +122,5 @@ class DataProcessor:
 
 # Example Usage
 if __name__ == "__main__":
-    processor = DataProcessor()
+    processor = DataPreprocessor()
     processor.process_raw()
