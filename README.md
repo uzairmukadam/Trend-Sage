@@ -5,19 +5,19 @@ This project is a comprehensive cryptocurrency data analysis and forecasting pip
 ---
 
 ## 📋 Table of Contents
-- [Overview](#🌟_overview)
-- [Features](#✨_features)
-- [Directory Structure](#🗂_directory_structure)
-- [Installation](#🚀_installation)
-- [Usage](#🛠_usage)
-- [Modules](#🧩_modules)
+- [Overview](#overview)
+- [Features](#✨-features)
+- [Directory Structure](#🗂-directory-structure)
+- [Installation](#🚀-installation)
+- [Usage](#🛠-usage)
+- [Modules](#🧩-modules)
   - [1. DataFetcher](#1-datafetcher)
   - [2. DataProcessor](#2-dataprocessor)
   - [3. FeatureEngineer](#3-featureengineer)
   - [4. ModelGenerator](#4-modelgenerator)
-- [Pending Work](#🚧_pending_work)
-- [Future Enhancements](#🔮_future_enhancements)
-- [License](#📜_license)
+- [Pending Work](#🚧-pending-work)
+- [Future Enhancements](#🔮-future-enhancements)
+- [License](#📜-license)
 
 ---
 
