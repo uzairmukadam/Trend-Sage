@@ -5,18 +5,19 @@ This project is a comprehensive cryptocurrency data analysis and forecasting pip
 ---
 
 ## 📋 Table of Contents
-- [Overview](#overview)
-- [Features](#features)
-- [Directory Structure](#directory-structure)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Modules](#modules)
+- [Overview](#🌟_overview)
+- [Features](#✨_features)
+- [Directory Structure](#🗂_directory_structure)
+- [Installation](#🚀_installation)
+- [Usage](#🛠_usage)
+- [Modules](#🧩_modules)
   - [1. DataFetcher](#1-datafetcher)
   - [2. DataProcessor](#2-dataprocessor)
   - [3. FeatureEngineer](#3-featureengineer)
   - [4. ModelGenerator](#4-modelgenerator)
-- [Future Enhancements](#future-enhancements)
-- [License](#license)
+- [Pending Work](#🚧_pending_work)
+- [Future Enhancements](#🔮_future_enhancements)
+- [License](#📜_license)
 
 ---
 
@@ -118,14 +119,28 @@ crypto-forecast-pipeline/
 - Location: model_generator/coin_gecko_model_generator.py
 - Purpose: Builds predictive models and generates forecasts using ARIMA.
 - Key Methods:
-    -fit(timeframe, steps): Fits a model and forecasts future prices for a given timeframe.
+    - fit(timeframe, steps): Fits a model and forecasts future prices for a given timeframe.
+
+---
+
+## 🚧 Pending Work
+
+- Enhance the accuracy and reliability of forecasting models by fine-tuning key parameters.
+- Streamline the existing forecasting pipeline for better performance and efficiency.
+- Implement automation to forecast and analyze.
+- Create an interactive dashboard to visualize predictions, trends, and insights in a user-friendly manner.
 
 ---
 
 ## 🔮 Future Enhancements
 
-- Optimize current forecast pipeline.
-- Add support for more advanced forecasting models (e.g., LSTM, Prophet).
-- Extend feature engineering to include more technical indicators.
-- Implement real-time data fetching and analysis.
-- Create a visualization dashboard for predictions and trends.
+- AExpand support to include cutting-edge models such as LSTM and Prophet for improved predictions.
+- Introduce additional technical indicators to enrich the dataset and boost model performance.
+- Design a robust pipeline that periodically fetches data at defined intervals, executes the entire forecasting process, and dynamically updates predictions in real-time.
+- Simplify the process of migrating the solution to cloud environments for scalability and accessibility.
+
+---
+
+## 📜 License
+
+This project is licensed under the GNU General Public License. For detailed terms and conditions, please refer to the LICENSE file included in this repository.
