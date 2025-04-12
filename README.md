@@ -134,7 +134,7 @@ crypto-forecast-pipeline/
 
 ## 🔮 Future Enhancements
 
-- AExpand support to include cutting-edge models such as LSTM and Prophet for improved predictions.
+- Experiment to include cutting-edge models such as LSTM and Prophet for improved predictions.
 - Introduce additional technical indicators to enrich the dataset and boost model performance.
 - Design a robust pipeline that periodically fetches data at defined intervals, executes the entire forecasting process, and dynamically updates predictions in real-time.
 - Simplify the process of migrating the solution to cloud environments for scalability and accessibility.
