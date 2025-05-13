@@ -168,8 +168,8 @@ class ModelGenerator:
         if self.forecast is None or self.future_exog_data is None:
             print("[WARNING] No forecast or exogenous data available to save.")
             return
-
-        forecast_file_path = os.path.join(self.forecast_directory, self.dataset_file_name)
+          
+        forecast_file_path = os.path.join(self.forecast_directory, f"forecast_{self.dataset_file_name}")
 
         try:
             forecast_df = pd.DataFrame(self.forecast, columns=['price'])
