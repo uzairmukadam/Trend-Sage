@@ -169,13 +169,12 @@ class ModelGenerator:
             print("[WARNING] No forecast or exogenous data available to save.")
             return
           
-        forecast_file_path = os.path.join(self.forecast_directory, f"forecast_{self.dataset_file_name}")
+        forecast_file_path = os.path.join(self.forecast_directory, f"{self.dataset_file_name}")
 
         try:
             forecast_df = pd.DataFrame(self.forecast, columns=['price'])
             combined_df = pd.concat([forecast_df.reset_index(drop=True), self.future_exog_data.reset_index(drop=True)], axis=1)
 
-            # Save to CSV
             combined_df.to_csv(forecast_file_path, index=False)
             print(f"[INFO] Forecast and all exogenous data successfully saved: {forecast_file_path}")
         except Exception as e:
