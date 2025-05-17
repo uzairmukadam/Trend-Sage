@@ -15,6 +15,8 @@ This project is a comprehensive cryptocurrency data analysis and forecasting pip
   - [2. DataProcessor](#2-dataprocessor)
   - [3. FeatureEngineer](#3-featureengineer)
   - [4. ModelGenerator](#4-modelgenerator)
+  - [5. DataAnalysis](#5-dataanalysis)
+  - [6. Visualizer](#6-visualizer)
 - [Pending Work](#-pending-work)
 - [Future Enhancements](#-future-enhancements)
 - [License](#-license)
@@ -46,6 +48,7 @@ crypto-forecast-pipeline/
 │   ├── processed/         # Processed CSV data
 │   ├── engineered/        # Feature-engineered data
 │   └── forecast/          # Forecast results
+│   └── analysis/          # Analysis results
 │
 ├── data_fetcher/          # DataFetcher module
 │   └── coin_gecko_source.py
@@ -58,6 +61,12 @@ crypto-forecast-pipeline/
 │
 ├── model_generator/       # ModelGenerator module
 │   └── coin_gecko_model_generator.py
+|
+├── data_analyzer/         # DataAnalysis module
+│   └── coin_gecko_data_analyzer.py
+|
+├── visualizer/            # Data visualizer app
+│   └── data_visualizer.py
 │
 ├── main.py                # Main script to run the workflow
 ├── README.md              # Project README
@@ -121,14 +130,26 @@ crypto-forecast-pipeline/
 - Key Methods:
     - fit(timeframe, steps): Fits a model and forecasts future prices for a given timeframe.
 
+### 5. DataAnalysis
+
+- Location: data_analyzer/coin_gecko_data_analyzer.py
+- Purpose: Using the engineered and forecast data, generates the analysis.
+- Key Methods:
+    - process(): Reads the engineered and forecast data and generates basic analysis.
+
+### 6. Visualizer
+
+- Location: visualizer/data_visualizer.py
+- Purpose: Runs a Flask application to visualize the analysis and predication.
+- Key Methods:
+    - run(): Starts the flask application.
+
 ---
 
 ## 🚧 Pending Work
 
 - Enhance the accuracy and reliability of forecasting models by fine-tuning key parameters.
 - Streamline the existing forecasting pipeline for better performance and efficiency.
-- Implement automation to forecast and analyze.
-- Create an interactive dashboard to visualize predictions, trends, and insights in a user-friendly manner.
 
 ---
 
@@ -136,7 +157,6 @@ crypto-forecast-pipeline/
 
 - Experiment to include cutting-edge models such as LSTM and Prophet for improved predictions.
 - Introduce additional technical indicators to enrich the dataset and boost model performance.
-- Design a robust pipeline that periodically fetches data at defined intervals, executes the entire forecasting process, and dynamically updates predictions in real-time.
 - Simplify the process of migrating the solution to cloud environments for scalability and accessibility.
 
 ---
