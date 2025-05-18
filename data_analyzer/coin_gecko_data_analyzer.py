@@ -60,12 +60,62 @@ class DataAnalysis:
 
         return datasets
 
-    def merge_data(self, engineered_df, forecast_df):
+    def already_processed(self, filename):
+        """Checks if the analysis JSON file already exists."""
+        return os.path.exists(os.path.join(self.analysis_directory, f"{filename}.json"))
+
+    def process(self):
         """
-        Merges engineered data with forecasted data, generating timestamps based on known intervals while preserving millisecond format.
+        Runs the entire analysis workflow: loading, merging, analyzing, and saving results.
+        """
+        datasets = self.load_matching_data()
+
+        if not datasets:
+            print("[INFO] No valid datasets available for analysis.")
+            return
+
+        for filename, (engineered_df, forecast_df) in datasets.items():
+            if self.already_processed(filename):
+                print(f"[INFO] Skipping {filename} (already processed).")
+                continue  # Skip processing if the file exists
+
+            merged_df = self.merge_data(engineered_df, forecast_df)
+            if merged_df is not None:
+                analysis_results = self.analyze_data(merged_df)
+                self.save_analysis(filename, merged_df, analysis_results)
+            else:
+                print(f"[INFO] Skipping analysis for {filename} due to merging issues.")
+
+    def save_analysis(self, filename, merged_df, analysis_results):
+        """
+        Saves merged DataFrame as a CSV file and analysis results as a JSON file.
 
         Args:
-            engineered_df (pd.DataFrame): Engineered dataset containing timestamps.
+            filename (str): Base filename for the analysis file.
+            merged_df (pd.DataFrame): Merged dataset to be saved.
+            analysis_results (dict): Analysis results.
+        """
+        merged_file_path = os.path.join(self.analysis_directory, f"{filename}.csv")
+        analysis_file_path = os.path.join(self.analysis_directory, f"{filename}.json")
+
+        try:
+            # Save merged data as CSV
+            merged_df.to_csv(merged_file_path, index=False)
+            print(f"[INFO] Merged data saved to: {merged_file_path}")
+
+            # Save analysis results as JSON
+            with open(analysis_file_path, 'w') as f:
+                json.dump(analysis_results, f, indent=4)
+            print(f"[INFO] Analysis results saved to: {analysis_file_path}")
+
+        except Exception as e:
+            print(f"[ERROR] Failed to save analysis data: {e}")
+
+    def merge_data(self, engineered_df, forecast_df):
+        """
+        Merges engineered data with forecasted data, ensuring proper timestamp alignment.
+        Args:
+            engineered_df (pd.DataFrame): Engineered dataset with timestamps.
             forecast_df (pd.DataFrame): Forecasted dataset without timestamps.
 
         Returns:
@@ -96,10 +146,10 @@ class DataAnalysis:
         merged_df = pd.concat([engineered_df, forecast_df], axis=0).reset_index(drop=True)
 
         return merged_df
-
+    
     def analyze_data(self, merged_df):
         """
-        Performs trend analysis, support/resistance level identification, and generates a buy/sell/hold score.
+        Performs trend analysis, support/resistance level identification, and generates a buy/sell/hold recommendation.
 
         Args:
             merged_df (pd.DataFrame): The merged dataset to analyze.
@@ -128,50 +178,6 @@ class DataAnalysis:
             analysis_results['recommendation'] = "Hold"
 
         return analysis_results
-
-    def save_analysis(self, filename, merged_df, analysis_results):
-        """
-        Saves merged DataFrame as a CSV file and analysis results as a JSON file.
-
-        Args:
-            filename (str): Base filename for the analysis file.
-            merged_df (pd.DataFrame): Merged dataset to be saved.
-            analysis_results (dict): Analysis results.
-        """
-        merged_file_path = os.path.join(self.analysis_directory, f"{filename}.csv")
-        analysis_file_path = os.path.join(self.analysis_directory, f"{filename}.json")
-
-        try:
-            # Save merged data as CSV
-            merged_df.to_csv(merged_file_path, index=False)
-            print(f"[INFO] Merged data saved to: {merged_file_path}")
-
-            # Save analysis results as JSON
-            with open(analysis_file_path, 'w') as f:
-                json.dump(analysis_results, f, indent=4)
-            print(f"[INFO] Analysis results saved to: {analysis_file_path}")
-
-        except Exception as e:
-            print(f"[ERROR] Failed to save analysis data: {e}")
-
-    def process(self):
-        """
-        Runs the entire analysis workflow: loading, merging, analyzing, and saving results.
-        """
-        datasets = self.load_matching_data()
-
-        if not datasets:
-            print("[INFO] No valid datasets available for analysis.")
-            return
-
-        for filename, (engineered_df, forecast_df) in datasets.items():
-            merged_df = self.merge_data(engineered_df, forecast_df)
-
-            if merged_df is not None:
-                analysis_results = self.analyze_data(merged_df)
-                self.save_analysis(filename, merged_df, analysis_results)
-            else:
-                print(f"[INFO] Skipping analysis for {filename} due to merging issues.")
 
 # Example usage
 if __name__ == '__main__':

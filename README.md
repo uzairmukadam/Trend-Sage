@@ -35,6 +35,8 @@ This project leverages the [CoinGecko API](https://www.coingecko.com/en/api) to 
 - Engineers features like moving averages, exponential moving averages, and RSI.
 - Generates price forecasts using ARIMA-based models.
 - Modularized pipeline for extensibility and reuse.
+- Automated analysis.
+- Flask application to visualize the analysis.
 
 ---
 
